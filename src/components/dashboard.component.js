@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const token = localStorage.getItem('token');
+const header = { headers: {'auth-token': token} }
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -36,14 +37,10 @@ export default class Dashboard extends Component {
     deleteDetail(e, id, imgID) {
         e.preventDefault();
 
-        axios.delete('http://localhost:5000/dashboard/details/' + id, {
-            headers: {
-              "auth-token": token 
-            }
-          })
+        axios.delete('http://localhost:5000/dashboard/details/' + id, header)
             .then(res => console.log(res.data))
 
-        axios.delete('http://localhost:5000/img_data/' + imgID)
+        axios.delete('http://localhost:5000/dashboard/img_data/' + imgID, header)
             .then(res => console.log(res.data));
 
         this.setState({
@@ -65,11 +62,7 @@ export default class Dashboard extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/dashboard/subjects', {
-          headers: {
-            "auth-token": token 
-          }
-        })
+        axios.get('http://localhost:5000/dashboard/subjects', header)
           .then(response => {
             const subjects = response.data.filter(each => 
                 each.username === localStorage.getItem('username')
@@ -81,18 +74,13 @@ export default class Dashboard extends Component {
             console.log(error);
           })
 
-        axios.get('http://localhost:5000/dashboard/details', {
-            headers: {
-                "auth-token":token
-            }
-        })
+        axios.get('http://localhost:5000/dashboard/details', header)
             .then(res => {
                 this.setState({ details: res.data })
             })
 
-        axios.get('http://localhost:5000/img_data')
+        axios.get('http://localhost:5000/dashboard/img_data', header)
             .then(res => {
-                console.log(res.data);
                 const photos = res.data;
                 this.setState({ photos })
             })
@@ -123,22 +111,22 @@ export default class Dashboard extends Component {
                 var actualImage = base64Flag + imageStr
             }
             catch{
-                var actualImage = '';
+                actualImage = '';
             }
             number++;
             return(
-                <tr key={detail.description}>
+                <tr key={detail._id}>
                     <td>{number}</td>
                     <td>{detail.date.substring(0,10)}</td>
                     <td>{detail.description}</td>
                     <td>
-                    <a className="lightbox" href={`#${actualImage}`}>
-                        <img src={actualImage}/>
-                    </a> 
-                    <div className="lightbox-target" id={actualImage}>
-                        <img src={actualImage}/>
-                        <a className="lightbox-close" href="#" />
-                    </div>
+                        <a className="lightbox" href={`#${actualImage}`}>
+                            <img src={actualImage}/>
+                        </a> 
+                        <div className="lightbox-target" id={actualImage}>
+                            <img src={actualImage}/>
+                            <a className="lightbox-close" href="#" />
+                        </div>
                     </td>
                     <td>
                         <Link to={"/detail/edit/"+detail._id}>edit</Link> | <a href="/dashboard" onClick={(e) => this.deleteDetail(e, detail._id, imageID)}>delete</a>

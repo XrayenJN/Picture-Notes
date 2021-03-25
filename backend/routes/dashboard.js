@@ -13,4 +13,7 @@ router.use('/subjects', subjectRouter)
 const detailRouter = require('./detail')
 router.use('/details', detailRouter)
 
+const imgRouter = require("./img");
+router.use('/img_data', imgRouter);
+
 module.exports = router;

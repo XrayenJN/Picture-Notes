@@ -10,6 +10,8 @@ import Dashboard from "./components/dashboard.component";
 import CreateSubject from "./components/create-subject.component";
 import CreateDetail from "./components/create-detail.component";
 import EditDetail from "./components/update-detail.component";
+import AdminLogin from "./components/admin-login.component";
+import AdminDashboard from "./components/admin-dashboard.component";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/subject/add" component={CreateSubject} />
         <Route path="/detail/add" component={CreateDetail} />
         <Route path="/detail/edit/:id" component={EditDetail} />
+        <Route path="/admin" exact component={AdminLogin} />
+        <Route path="/admin/dashboard" component={AdminDashboard} />
       </div>
     </Router>
   );
