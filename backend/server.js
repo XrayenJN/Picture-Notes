@@ -27,8 +27,8 @@ const dashboardRoutes = require("./routes/dashboard");
 const verifyToken = require("./routes/validate-token");
 app.use('/dashboard', verifyToken, dashboardRoutes);
 
-const imgRouter = require("./routes/img");
-app.use('/img_data', imgRouter);
+const adminRoute = require("./routes/admin");
+app.use('/admins', adminRoute)
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

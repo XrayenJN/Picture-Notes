@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const token = localStorage.getItem('token');
+const header = { headers: {'auth-token': token} }
+
 export default class CreateSubject extends Component {
     constructor(props) {
         super(props);
@@ -23,12 +26,7 @@ export default class CreateSubject extends Component {
             subject: this.state.subject,
         };
 
-        const token = localStorage.getItem('token');
-        axios.post('http://localhost:5000/dashboard/subjects/add', newSubject, {
-            headers: {
-              "auth-token": token 
-            }
-        })
+        axios.post('http://localhost:5000/dashboard/subjects/add', newSubject, header)
             .then(res => console.log(res.data))
 
         window.location = '/dashboard';

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const token = localStorage.getItem('token');
+const header = { headers: {'auth-token': token} }
+
 export default class CreateUser extends Component {
     constructor(props) {
         super(props);
@@ -55,13 +58,8 @@ export default class CreateUser extends Component {
                 email: this.state.email,
                 password: this.state.password
             };
-    
-            const token = localStorage.getItem('token');
-            axios.post('http://localhost:5000/users/add', newSubject, {
-                headers: {
-                  "auth-token": token 
-                }
-            })
+
+            axios.post('http://localhost:5000/users/add', newSubject, header)
                 .then(res => console.log(res.data))
 
             window.location = '/';

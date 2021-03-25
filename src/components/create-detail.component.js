@@ -3,6 +3,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 
+const token = localStorage.getItem('token');
+const header = { headers: {'auth-token': token} }
+
 export default class CreateDetail extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +40,7 @@ export default class CreateDetail extends Component {
       const image = new FormData();
       image.append('file', this.state.file);
 
-      axios.post('http://localhost:5000/img_data', image)
+      axios.post('http://localhost:5000/dashboard/img_data', image, header)
         .then(res => this.setState({ imageID: res.data.new_img }))
     }
 
@@ -52,14 +55,7 @@ export default class CreateDetail extends Component {
           date: this.state.date
         };
 
-        console.log(detail);
-
-        const token = localStorage.getItem('token')
-        axios.post('http://localhost:5000/dashboard/details/add/', detail, {
-          headers: {
-            "auth-token": token 
-          }
-        })
+        axios.post('http://localhost:5000/dashboard/details/add/', detail, header)
             .then(res => console.log(res.data))
 
         localStorage.removeItem('subject');
