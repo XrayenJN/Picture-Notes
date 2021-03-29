@@ -12,6 +12,10 @@ import CreateDetail from "./components/create-detail.component";
 import EditDetail from "./components/update-detail.component";
 import AdminLogin from "./components/admin-login.component";
 import AdminDashboard from "./components/admin-dashboard.component";
+import AdminEditDetail from "./components/admin-edit-detail.component";
+import AdminCreateUser from "./components/admin-create-user.component";
+import AdminCreateSubject from "./components/admin-create-subject.component";
+import AdminCreateDetail from "./components/admin-create-detail.component";
 
 function App() {
   return (
@@ -26,7 +30,11 @@ function App() {
         <Route path="/detail/add" component={CreateDetail} />
         <Route path="/detail/edit/:id" component={EditDetail} />
         <Route path="/admin" exact component={AdminLogin} />
-        <Route path="/admin/dashboard" component={AdminDashboard} />
+        <Route path="/admin/dashboard" exact component={AdminDashboard} />
+        <Route path="/admin/dashboard/detail/edit/:id" component={AdminEditDetail} />
+        <Route path="/admin/user/add" component={AdminCreateUser} />
+        <Route path="/admin/subject/add" component={AdminCreateSubject} />
+        <Route path="/admin/detail/add" component={AdminCreateDetail} />
       </div>
     </Router>
   );

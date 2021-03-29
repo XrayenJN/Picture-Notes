@@ -6,7 +6,7 @@ import axios from 'axios';
 const token = localStorage.getItem('token');
 const header = { headers: {'auth-token': token} }
 
-export default class CreateDetail extends Component {
+export default class EditDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,9 +14,10 @@ export default class CreateDetail extends Component {
             description: '',
             file: null,
             date: new Date(),
-            imageID: '',
+            oldImageID: '',
             newImage: false,
             newImageID: '',
+            photos: []
         }
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeImage = this.onChangeImage.bind(this);
@@ -34,17 +35,20 @@ export default class CreateDetail extends Component {
             id: res.data._id,
             description: res.data.description,
             date: new Date(res.data.date),
-            imageID: res.data.image,
+            oldImageID: res.data.image,
             newImageID: res.data.image
           })
         })
+
+      axios.get('http://localhost:5000/dashboard/img_data', header)
+        .then(res => this.setState({ photos: res.data }))
     }
 
     changeImage(e){
       e.preventDefault();
       alert('Once you click \'Confirm Image\', you can\'t get back the previous image!');
       this.setState({ newImage: true })
-      console.log(this.state.imageID);
+      console.log(this.state.oldImageID);
     }
 
     onChangeDescription(e) {
@@ -62,8 +66,8 @@ export default class CreateDetail extends Component {
     onSubmitImage(e){
       e.preventDefault();
 
-      if(this.state.imageID)
-        axios.delete('http://localhost:5000/dashboard/img_data/' + this.state.imageID, header)
+      if(this.state.oldImageID)
+        axios.delete('http://localhost:5000/dashboard/img_data/' + this.state.oldImageID, header)
           .then(res => console.log(res))
 
       const image = new FormData();
@@ -97,6 +101,24 @@ export default class CreateDetail extends Component {
     render() {
         const username = localStorage.getItem('username')
         const subject = localStorage.getItem('subject');
+
+        function arrayBufferToBase64(buffer) {
+          var binary = '';
+          var bytes = [].slice.call(new Uint8Array(buffer));
+          bytes.forEach((b) => binary += String.fromCharCode(b));
+          return window.btoa(binary);
+        };
+
+        try{
+          const image = this.state.photos.filter(img => img._id === this.state.oldImageID)
+          const base64Flag = 'data:image/jpeg;base64,';
+          const imageStr = arrayBufferToBase64(image[0].img.data.data)
+          var actualImage = base64Flag + imageStr
+        }
+        catch{
+            actualImage = '';
+        }
+
         const changeImage = (this.state.newImage)
           ? <div className="form-group"> 
               <label>Image: </label>
@@ -106,12 +128,19 @@ export default class CreateDetail extends Component {
             </div>
           : <div className="form-group"> 
               <label>Image</label>
+              <a className="lightbox" href={`#${actualImage}`}>
+                <img src={actualImage}/>
+              </a> 
+              <div className="lightbox-target" id={actualImage}>
+                <img src={actualImage}/>
+                <a className="lightbox-close" href="#" />
+              </div>
               <div>Do you want to change the Image?</div>
               <button onClick={this.changeImage}>Yes</button>
             </div>
         return (
-            <div className='container'>
-            <h3>Create New Detail</h3>
+          <div className='container'>
+            <h3>Update Detail</h3>
             <form onSubmit={this.onSubmit}>
               <div className="form-group"> 
                 <label>Username: </label>
@@ -146,7 +175,7 @@ export default class CreateDetail extends Component {
               </div>
               <br />
               <div className="form-group">
-                <input type="submit" value="Add Detail" className="btn btn-primary" />
+                <input type="submit" value="Update Detail" className="btn btn-primary" />
               </div>
             </form>
           </div>

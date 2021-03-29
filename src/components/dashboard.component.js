@@ -129,7 +129,9 @@ export default class Dashboard extends Component {
                         </div>
                     </td>
                     <td>
-                        <Link to={"/detail/edit/"+detail._id}>edit</Link> | <a href="/dashboard" onClick={(e) => this.deleteDetail(e, detail._id, imageID)}>delete</a>
+                        <Link to={"/detail/edit/"+detail._id}>edit</Link> 
+                        | 
+                        <a href="/dashboard" onClick={(e) => this.deleteDetail(e, detail._id, imageID)}>delete</a>
                     </td>
                 </tr>
             )
