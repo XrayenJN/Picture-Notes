@@ -17,40 +17,8 @@ export default class AdminDashboard extends Component {
             photos: []
         };
 
-        // this.subjectClicked = this.subjectClicked.bind(this)
-        // this.sort = this.sort.bind(this);
+        this.updateState = this.updateState.bind(this);
     }
-
-    // deleteDetail(e, id, imgID) {
-    //     e.preventDefault();
-
-    //     axios.delete('http://localhost:5000/dashboard/details/' + id, {
-    //         headers: {
-    //           "auth-token": token 
-    //         }
-    //       })
-    //         .then(res => console.log(res.data))
-
-    //     axios.delete('http://localhost:5000/img_data/' + imgID)
-    //         .then(res => console.log(res.data));
-
-    //     this.setState({
-    //         details: this.state.details.filter(each => each._id !== id),
-    //         photo: this.state.photo.filter(each => each._id !== imgID)
-    //     })
-    // }
-
-    // sort(e){
-    //     const sorted = this.state.details.sort((first, second) => {
-    //         if (this.state.sorted === true) {
-    //             if (first.date > second.date) return 1
-    //                 return -1
-    //         } else {if (first.date > second.date) return -1
-    //                 return 1
-    //         }
-    //     })
-    //     this.setState({ details: sorted, sorted: !this.state.sorted });
-    // }
 
     componentDidMount() {
         axios.get('http://localhost:5000/users')
@@ -70,8 +38,33 @@ export default class AdminDashboard extends Component {
 
         axios.get('http://localhost:5000/dashboard/img_data', header)
             .then(res => {
+                console.log(res.data)
                 this.setState({ photos: res.data })
             })
+    }
+
+    deleteDetail(e, id, imgID) {
+        e.preventDefault();
+
+        // axios.delete('http://localhost:5000/dashboard/details/' + id, header)
+        //     .then(res => console.log(res.data))
+
+        // axios.delete('http://localhost:5000/dashboard/img_data/' + imgID, header)
+        //     .then(res => console.log(res.data));
+
+        console.log(id, imgID)
+
+        // this.setState({ 
+        //     details: this.state.details.filter(each => each._id !== id),
+        //     photos: this.state.photos.filter(each => each._id !== imgID)
+        // })
+    }
+
+    updateState(detailID, imgID) {
+        this.setState({ 
+            details: this.state.details.filter(each => each._id !== detailID),
+            photos: this.state.photos.filter(each => each._id !== imgID)
+        })
     }
 
     render() {
@@ -86,6 +79,19 @@ export default class AdminDashboard extends Component {
             bytes.forEach((b) => binary += String.fromCharCode(b));
             return window.btoa(binary);
         };
+
+        function deleteDetail(e, id, imgID) {
+            e.preventDefault();
+
+            axios.delete('http://localhost:5000/dashboard/details/' + id, header)
+                .then(res => console.log(res.data))
+
+            axios.delete('http://localhost:5000/dashboard/img_data/' + imgID, header)
+                .then(res => console.log(res.data));
+
+            alert("Detail has been deleted. Please refresh to update the dashboard.")
+            document.getElementById('info').innerHTML = "x";
+        }
 
         function Detail(props) {
             const detail =
@@ -119,7 +125,9 @@ export default class AdminDashboard extends Component {
                                 </div>
                             </td>
                             <td className="w-25 p-3">
-                                <Link to={"/#"+detail._id}>edit</Link> | <a href="/#" onClick={(e) => this.deleteDetail(e, detail._id, imageID)}>delete</a>
+                                <Link to={"/admin/dashboard/detail/edit/"+detail._id}>edit</Link> 
+                                |
+                                <a href="/admin/dashboard" onClick={(e) => deleteDetail(e, detail._id, imageID )}>delete</a>  <a id="info"></a>
                             </td>
                         </tr>
                     )
@@ -149,12 +157,18 @@ export default class AdminDashboard extends Component {
             <div key={user.username}>
                 <h1 >{user.username}</h1>
                 <Subject user={user.username} />
+                
                 <br />
             </div>
             )
 
         return (
             <div>
+                <div style={{textAlign:"center"}}>
+                    <Link to={"/admin/user/add"}>+User</Link>
+                    <Link to={"/admin/subject/add"}>+Subject</Link>
+                    <Link to={"/admin/detail/add"}>+Detail</Link>
+                </div>
                 {user}
             </div>
         )
