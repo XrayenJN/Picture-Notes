@@ -19,7 +19,7 @@ export default class AdminCreateSubject extends Component {
 
     componentDidMount(){
         axios.get('http://localhost:5000/users/')
-            .then(res => this.setState({ users: res.data }))
+            .then(res => this.setState({ users: res.data, username: res.data[0].username }))
     }
 
     onChangeUsername(e){
