@@ -13,6 +13,7 @@ export default class CreateDetail extends Component {
             users: [],
             subjects: [],
             username: '',
+            multipleSubject: [],
             subject: '',
             description: '',
             file: null,
@@ -24,6 +25,7 @@ export default class CreateDetail extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeImage = this.onChangeImage.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
+        this.onSubmitImage = this.onSubmitImage.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -40,7 +42,7 @@ export default class CreateDetail extends Component {
     }
 
     onChangeSubject(e) {
-        this.setState({ subject: e.target.value })
+      this.setState({ subject: e.target.value })
     }
 
     onChangeDescription(e) {
@@ -55,14 +57,18 @@ export default class CreateDetail extends Component {
       this.setState({ file: e.target.files[0] })
     }
 
+    onSubmitImage(e){
+      e.preventDefault();
+
+      const image = new FormData();
+      image.append('file', this.state.file);
+
+      axios.post('http://localhost:5000/dashboard/img_data', image, header)
+        .then(res => this.setState({ imageID: res.data.new_img }))
+    }
+
     onSubmit(e) {
         e.preventDefault();
-
-        const image = new FormData();
-        image.append('file', this.state.file);
-
-        // axios.post('http://localhost:5000/dashboard/img_data', image, header)
-        //     .then(res => this.setState({ imageID: res.data.new_img }))
 
         const detail = {
           username: this.state.username,
@@ -72,19 +78,17 @@ export default class CreateDetail extends Component {
           date: this.state.date
         };
 
-        // axios.post('http://localhost:5000/dashboard/details/add/', detail, header)
-        //     .then(res => console.log(res.data))
+        axios.post('http://localhost:5000/dashboard/details/add/', detail, header)
+            .then(res => console.log(res.data))
 
         console.log(detail);
 
-        // window.location = '/admin/dashboard';
+        window.location = '/admin/dashboard';
     }
 
     render() {
-        const filteredSubject = this.state.subjects.filter((user) => 
-            user.username === this.state.username)
-
-        console.log(filteredSubject)
+        var filteredSubject = this.state.subjects.filter((user) => 
+          user.username === this.state.username)
 
         return (
             <div className='container'>
@@ -127,6 +131,7 @@ export default class CreateDetail extends Component {
                 <label>Image: </label>
                 <br />
                 <input type="file" name="myImage" onChange= {this.onChangeImage} />
+                <button onClick={this.onSubmitImage}>Confirm Image</button>
               </div>
               <div className="form-group">
                 <label>Date: </label>
