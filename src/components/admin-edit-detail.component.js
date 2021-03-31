@@ -51,7 +51,6 @@ export default class EditDetail extends Component {
       e.preventDefault();
       alert('Once you click \'Confirm Image\', you can\'t get back the previous image!');
       this.setState({ newImage: true })
-      console.log(this.state.oldImageID);
     }
 
     onChangeDescription(e) {
@@ -78,7 +77,6 @@ export default class EditDetail extends Component {
 
       axios.post('http://localhost:5000/dashboard/img_data', image, header)
         .then(res => {
-          console.log(res.data.new_img)
           this.setState({ newImageID: res.data.new_img })
         })
     }

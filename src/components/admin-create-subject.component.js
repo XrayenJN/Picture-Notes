@@ -38,11 +38,8 @@ export default class AdminCreateSubject extends Component {
             subject: this.state.subject,
         };
 
-        console.log(newSubject)
-
         axios.post('http://localhost:5000/dashboard/subjects/add', newSubject, header)
             .then(res => console.log(res.data))
-            .catch(err => console.log(err))
 
         window.location = '/admin/dashboard';
     }

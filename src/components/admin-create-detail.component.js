@@ -65,6 +65,8 @@ export default class CreateDetail extends Component {
 
       axios.post('http://localhost:5000/dashboard/img_data', image, header)
         .then(res => this.setState({ imageID: res.data.new_img }))
+
+      document.getElementById('imageSubmitted').innerHTML = "Photo has been submitted"
     }
 
     onSubmit(e) {
@@ -81,13 +83,11 @@ export default class CreateDetail extends Component {
         axios.post('http://localhost:5000/dashboard/details/add/', detail, header)
             .then(res => console.log(res.data))
 
-        console.log(detail);
-
         window.location = '/admin/dashboard';
     }
 
     render() {
-        var filteredSubject = this.state.subjects.filter((user) => 
+        const filteredSubject = this.state.subjects.filter((user) => 
           user.username === this.state.username)
 
         return (
@@ -117,14 +117,16 @@ export default class CreateDetail extends Component {
                     className="form-control"
                     value={this.state.subject}
                     onChange={this.onChangeSubject}>
+                    <option></option>
                     {filteredSubject
                     .map((user) => {
-                        return <option
+                        return (
+                          <option
                             key={user.subject}
                             value={user.subject}>{user.subject}
-                            </option>
-                    })
-                    }
+                          </option>
+                        )
+                    })}
                 </select>
               </div>
               <div className="form-group"> 
@@ -132,6 +134,9 @@ export default class CreateDetail extends Component {
                 <br />
                 <input type="file" name="myImage" onChange= {this.onChangeImage} />
                 <button onClick={this.onSubmitImage}>Confirm Image</button>
+                <div>
+                  <label id="imageSubmitted" style={{color: "green"}}></label>
+                </div>
               </div>
               <div className="form-group">
                 <label>Date: </label>
