@@ -76,6 +76,8 @@ export default class EditDetail extends Component {
           console.log(res.data.new_img)
           this.setState({ newImageID: res.data.new_img })
         })
+
+      document.getElementById('imageSubmitted').innerHTML = "Photo has been submitted"
     }
 
     onSubmit(e) {
@@ -123,6 +125,9 @@ export default class EditDetail extends Component {
               <br />
               <input type="file" name="myImage" onChange= {this.onChangeImage} />
               <button onClick={this.onSubmitImage}>Confirm Image</button>
+              <div>
+                <label id="imageSubmitted" style={{color: "green"}}></label>
+              </div>
             </div>
           : <div className="form-group"> 
               <label>Image</label>
