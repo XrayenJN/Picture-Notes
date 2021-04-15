@@ -21,22 +21,22 @@ export default class AdminDashboard extends Component {
     }
 
     componentDidMount() {
-        axios.get('/users')
+        axios.get('/api/users')
             .then(res => {
                 this.setState({ users: res.data })
             })
 
-        axios.get('/dashboard/subjects', header)
+        axios.get('/api/dashboard/subjects', header)
           .then(res => {
               this.setState({ subjects: res.data })
           })
 
-        axios.get('/dashboard/details', header)
+        axios.get('/api/dashboard/details', header)
             .then(res => {
                 this.setState({ details: res.data })
             })
 
-        axios.get('/dashboard/img_data', header)
+        axios.get('/api/dashboard/img_data', header)
             .then(res => {
                 console.log(res.data)
                 this.setState({ photos: res.data })

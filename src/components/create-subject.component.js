@@ -26,7 +26,7 @@ export default class CreateSubject extends Component {
             subject: this.state.subject,
         };
 
-        axios.post('/dashboard/subjects/add', newSubject, header)
+        axios.post('/api/dashboard/subjects/add', newSubject, header)
             .then(res => console.log(res.data))
 
         window.location = '/dashboard';

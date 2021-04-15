@@ -21,7 +21,7 @@ export default class AdminCreateUser extends Component {
     }
 
     componentDidMount() {
-        axios.get('/users')
+        axios.get('/api/users')
             .then(res => {
                 const users = res.data
                 this.setState({ users })
@@ -59,7 +59,7 @@ export default class AdminCreateUser extends Component {
                 password: this.state.password
             };
 
-            axios.post('/users/add', newSubject, header)
+            axios.post('/api/users/add', newSubject, header)
                 .then(res => console.log(res.data))
 
             // window.location = '/admin/dashboard';

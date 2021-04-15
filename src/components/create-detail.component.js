@@ -40,7 +40,7 @@ export default class CreateDetail extends Component {
       const image = new FormData();
       image.append('file', this.state.file);
 
-      axios.post('/dashboard/img_data', image, header)
+      axios.post('/api/dashboard/img_data', image, header)
         .then(res => this.setState({ imageID: res.data.new_img }))
 
       document.getElementById('imageSubmitted').innerHTML = "Photo has been submitted"
@@ -57,7 +57,7 @@ export default class CreateDetail extends Component {
           date: this.state.date
         };
 
-        axios.post('/dashboard/details/add/', detail, header)
+        axios.post('/api/dashboard/details/add/', detail, header)
             .then(res => console.log(res.data))
 
         localStorage.removeItem('subject');

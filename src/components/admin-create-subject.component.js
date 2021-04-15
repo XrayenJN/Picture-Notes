@@ -18,7 +18,7 @@ export default class AdminCreateSubject extends Component {
     }
 
     componentDidMount(){
-        axios.get('/users')
+        axios.get('/api/users')
             .then(res => this.setState({ users: res.data, username: res.data[0].username }))
     }
 
@@ -38,7 +38,7 @@ export default class AdminCreateSubject extends Component {
             subject: this.state.subject,
         };
 
-        axios.post('/dashboard/subjects/add', newSubject, header)
+        axios.post('/api/dashboard/subjects/add', newSubject, header)
             .then(res => console.log(res.data))
 
         window.location = '/admin/dashboard';

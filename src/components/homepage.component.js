@@ -19,7 +19,7 @@ export default class LoginUser extends Component {
     }
 
     componentDidMount() {
-        axios.get("/users")
+        axios.get("/api/users")
             .then(res => {
                 const users = res.data
                 this.setState({ users })
@@ -51,13 +51,13 @@ export default class LoginUser extends Component {
                 password: this.state.password
             }
     
-            axios.get('/users')
+            axios.get('/api/users')
             .then(res => {
                 const user = res.data.filter(user => user.email === this.state.email)
                 localStorage.setItem('username', user[0].username)
             })
     
-            axios.post('/users/login', User)
+            axios.post('/api/users/login', User)
                 .then(res => {
                     localStorage.setItem("token", res.data.token)
                     window.location = '/dashboard'
