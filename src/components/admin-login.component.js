@@ -19,7 +19,7 @@ export default class AdminLogin extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:5000/admins")
+        axios.get("/admins")
             .then(res => {
                 console.log(res.data)
                 const users = res.data
@@ -52,13 +52,13 @@ export default class AdminLogin extends Component {
                 password: this.state.password
             }
     
-            axios.get('http://localhost:5000/admins')
+            axios.get('/admins')
             .then(res => {
                 const admin = res.data.filter(admin => admin.email === this.state.email)
                 localStorage.setItem('username', admin[0].username)
             })
     
-            axios.post('http://localhost:5000/admins/login', Admin)
+            axios.post('/admins/login', Admin)
                 .then(res => {
                     localStorage.setItem("token", res.data.token)
                     window.location = '/admin/dashboard'

@@ -30,10 +30,10 @@ export default class CreateDetail extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/users')
+        axios.get('/users')
             .then(res => this.setState({ users: res.data, username: res.data[0].username }))
 
-        axios.get('http://localhost:5000/dashboard/subjects', header)
+        axios.get('/dashboard/subjects', header)
             .then(res => this.setState({ subjects: res.data }))
     }
 
@@ -63,7 +63,7 @@ export default class CreateDetail extends Component {
       const image = new FormData();
       image.append('file', this.state.file);
 
-      axios.post('http://localhost:5000/dashboard/img_data', image, header)
+      axios.post('/dashboard/img_data', image, header)
         .then(res => this.setState({ imageID: res.data.new_img }))
 
       document.getElementById('imageSubmitted').innerHTML = "Photo has been submitted"
@@ -80,7 +80,7 @@ export default class CreateDetail extends Component {
           date: this.state.date
         };
 
-        axios.post('http://localhost:5000/dashboard/details/add/', detail, header)
+        axios.post('/dashboard/details/add/', detail, header)
             .then(res => console.log(res.data))
 
         window.location = '/admin/dashboard';
