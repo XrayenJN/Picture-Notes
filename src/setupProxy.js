@@ -1,6 +1,6 @@
 const proxy = require('http-proxy-middleware');
 
-const port = process.env.ATLAS_URI || 5000;
+const port = process.env.PORT || 5000;
 
 module.exports = function(app) {
     app.use(
