@@ -21,14 +21,14 @@ connection.once('open', () => {
 })
 
 const usersRouter = require('./routes/users')
-app.use('/users', usersRouter)
+app.use('/api/users', usersRouter)
 
 const dashboardRoutes = require("./routes/dashboard");
 const verifyToken = require("./routes/validate-token");
-app.use('/dashboard', verifyToken, dashboardRoutes);
+app.use('/api/dashboard', verifyToken, dashboardRoutes);
 
 const adminRoute = require("./routes/admin");
-app.use('/admins', adminRoute)
+app.use('/api/admins', adminRoute)
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

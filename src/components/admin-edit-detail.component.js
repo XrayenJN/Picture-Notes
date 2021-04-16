@@ -30,7 +30,7 @@ export default class EditDetail extends Component {
     }
 
     componentDidMount(){
-      axios.get('http://localhost:5000/dashboard/details/' + this.props.match.params.id, header)
+      axios.get('/api/dashboard/details/' + this.props.match.params.id, header)
         .then(res => {
           this.setState({
             id: res.data._id,
@@ -43,7 +43,7 @@ export default class EditDetail extends Component {
           })
         })
 
-      axios.get('http://localhost:5000/dashboard/img_data', header)
+      axios.get('/api/dashboard/img_data', header)
         .then(res => this.setState({ photos: res.data }))
     }
 
@@ -69,13 +69,13 @@ export default class EditDetail extends Component {
       e.preventDefault();
 
       if(this.state.oldImageID)
-        axios.delete('http://localhost:5000/dashboard/img_data/' + this.state.oldImageID, header)
+        axios.delete('/api/dashboard/img_data/' + this.state.oldImageID, header)
           .then(res => console.log(res))
 
       const image = new FormData();
       image.append('file', this.state.file);
 
-      axios.post('http://localhost:5000/dashboard/img_data', image, header)
+      axios.post('/api/dashboard/img_data', image, header)
         .then(res => {
           this.setState({ newImageID: res.data.new_img })
         })
@@ -94,7 +94,7 @@ export default class EditDetail extends Component {
           date: this.state.date
         };
 
-        axios.post('http://localhost:5000/dashboard/details/update/' + this.state.id, detail, header)
+        axios.post('/api/dashboard/details/update/' + this.state.id, detail, header)
             .then(res => console.log(res.data))
 
         localStorage.removeItem('subject');

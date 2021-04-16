@@ -21,22 +21,22 @@ export default class AdminDashboard extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/users')
+        axios.get('/api/users')
             .then(res => {
                 this.setState({ users: res.data })
             })
 
-        axios.get('http://localhost:5000/dashboard/subjects', header)
+        axios.get('/api/dashboard/subjects', header)
           .then(res => {
               this.setState({ subjects: res.data })
           })
 
-        axios.get('http://localhost:5000/dashboard/details', header)
+        axios.get('/api/dashboard/details', header)
             .then(res => {
                 this.setState({ details: res.data })
             })
 
-        axios.get('http://localhost:5000/dashboard/img_data', header)
+        axios.get('/api/dashboard/img_data', header)
             .then(res => {
                 console.log(res.data)
                 this.setState({ photos: res.data })
@@ -46,10 +46,10 @@ export default class AdminDashboard extends Component {
     deleteDetail(e, id, imgID) {
         e.preventDefault();
 
-        // axios.delete('http://localhost:5000/dashboard/details/' + id, header)
+        // axios.delete('/dashboard/details/' + id, header)
         //     .then(res => console.log(res.data))
 
-        // axios.delete('http://localhost:5000/dashboard/img_data/' + imgID, header)
+        // axios.delete('/dashboard/img_data/' + imgID, header)
         //     .then(res => console.log(res.data));
 
         console.log(id, imgID)
@@ -83,10 +83,10 @@ export default class AdminDashboard extends Component {
         function deleteDetail(e, id, imgID) {
             e.preventDefault();
 
-            axios.delete('http://localhost:5000/dashboard/details/' + id, header)
+            axios.delete('/dashboard/details/' + id, header)
                 .then(res => console.log(res.data))
 
-            axios.delete('http://localhost:5000/dashboard/img_data/' + imgID, header)
+            axios.delete('/dashboard/img_data/' + imgID, header)
                 .then(res => console.log(res.data));
 
             alert("Detail has been deleted. Please refresh to update the dashboard.")
