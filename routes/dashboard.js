@@ -16,4 +16,8 @@ router.use('/details', detailRouter)
 const imgRouter = require("./img");
 router.use('/img_data', imgRouter);
 
+router.use(function(req, res) {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'))
+})
+
 module.exports = router;
